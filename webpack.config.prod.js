@@ -1,20 +1,46 @@
 import path from "path";
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default{
     debug:true,
     devtool:'source-map',
     noInfo:false,
-    entry:[
-        path.resolve(__dirname, 'src/index')
-    ],
+    entry:{
+        vendor : path.resolve(__dirname, 'src/vendor'),
+        main : path.resolve(__dirname, 'src/index')
+    },
     target:'web',
     output:{
         path:path.resolve(__dirname, 'dist'),
         publicPath:'/',
-        filename:'bundle.js'
+        filename:'[name].js'
     },
     plugins:[
+        //Use CommonChunkPlugin to create a separate bundle
+        //of vendor libraries so that they're cached separately.
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor'
+        }),
+
+        //Include html file that includes reference to bundle js
+        new HtmlWebpackPlugin({
+            template : 'src/index.html',
+            minify:{
+                removeComments : true,
+                collapseWhitespace : true,
+                removeRedundantAttributes : true,
+                useShortDoctype : true,
+                removeEmptyAttributes : true,
+                removeStyleLinkTypeAttributes : true,
+                KeepClosingSlash : true,
+                minifyJS : true,
+                minifyCSS : true,
+                minifyURLs : true
+            },
+            inject: true
+        }),
+
         //eliminate duplicate packages when generate bundle
         new webpack.optimize.DedupePlugin(),
         //minify js
