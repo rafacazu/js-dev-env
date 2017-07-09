@@ -14,16 +14,16 @@ app.use(express.static('dist'));
 app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, "../dist/index.html"))
 });
+//handled by heroku
+// app.get("/users", function(req, res){
+//     res.json([
+//         {"id":1, "firstName":"Bob", "lastName":"Smith", "email":"bob@gmail.com"},
+//         {"id":2, "firstName":"Rodrigo", "lastName":"Costa", "email":"rodrigo@gmail.com"},
+//         {"id":1, "firstName":"Gabriel", "lastName":"spina", "email":"gab@gmail.com"}
 
-app.get("/users", function(req, res){
-    res.json([
-        {"id":1, "firstName":"Bob", "lastName":"Smith", "email":"bob@gmail.com"},
-        {"id":2, "firstName":"Rodrigo", "lastName":"Costa", "email":"rodrigo@gmail.com"},
-        {"id":1, "firstName":"Gabriel", "lastName":"spina", "email":"gab@gmail.com"}
+//     ]);
 
-    ]);
-
-});
+// });
 
 app.listen(port, function (err){
     if(err) {
